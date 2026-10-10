@@ -1,0 +1,75 @@
+{
+  "format": 1,
+  "date": "2026-10-10",
+  "notes": "T-Beam : la LED bleue clignote pendant un SOS et ne reste plus allumée carte éteinte ; le tracker T-Beam se met à jour sans câble.",
+  "app": {
+    "version": "1.11.0",
+    "android": {
+      "arm64-v8a": {
+        "file": "app/AeroTrack-1.11.0-arm64.apk",
+        "size": 18140160,
+        "sha256": "1cb66f3c745d1e024549aef5b530f645ac06c9e13579e4d67ced70eeb60007bf"
+      },
+      "armeabi-v7a": {
+        "file": "app/AeroTrack-1.11.0-armv7.apk",
+        "size": 15619802,
+        "sha256": "f4af43b9290d6f5d84e0c78b8edb15f81ba931d0e64aa3b48308724fa34bf29a"
+      }
+    }
+  },
+  "firmware": {
+    "version": "0.13.3",
+    "boards": {
+      "tracker_heltec_v2": {
+        "file": "fw/0.13.3/tracker_heltec_v2.bin",
+        "size": 1392336,
+        "sha256": "205f92127f38598c1ad13b3ffd780c364f200ee76e7b0b1dd23a070a305c5f0a"
+      },
+      "tracker_heltec_wt": {
+        "file": "fw/0.13.3/tracker_heltec_wt.bin",
+        "size": 1268304,
+        "sha256": "3726a110731f99f9afda5c2702f965fce01936331ad0934ffbb1fdc6394715d0"
+      },
+      "tracker_lora32_v21": {
+        "file": "fw/0.13.3/tracker_lora32_v21.bin",
+        "size": 1420928,
+        "sha256": "0ec68a60f73abb6c2f0dfb2258db1fa744da2bea329f8c416abec9965237ab03"
+      },
+      "tracker_tbeam": {
+        "file": "fw/0.13.3/tracker_tbeam.bin",
+        "size": 1436240,
+        "sha256": "0fa7c92fb261c9baac96c6c1f8d16dd161bfd4c5a8b87f9c53d528ad844d5783"
+      },
+      "tracker_twatch": {
+        "file": "fw/0.13.3/tracker_twatch.bin",
+        "size": 1494656,
+        "sha256": "852b197074d669ce194e929fb2f838ee5f4da6bc4111ff7adbb119c0ff6be0ec"
+      },
+      "base_heltec_v2": {
+        "file": "fw/0.13.3/base_heltec_v2.bin",
+        "size": 1391840,
+        "sha256": "1640e8a6009fa6dcd989135654b4e8744010f3f423323cecfb6e38e32a5d236c"
+      },
+      "base_heltec_wt": {
+        "file": "fw/0.13.3/base_heltec_wt.bin",
+        "size": 1242960,
+        "sha256": "99b1521065c97d663b5a25c098301cf8eccf4edf68045237f3ffa1e7344f9259"
+      },
+      "base_tbeam": {
+        "file": "fw/0.13.3/base_tbeam.bin",
+        "size": 1435472,
+        "sha256": "d146b31b20c24c91b62f774275e03fc349316fbd235714d9d2d8aeb9c2c08e52"
+      },
+      "base_tsim7000g": {
+        "file": "fw/0.13.3/base_tsim7000g.bin",
+        "size": 1423824,
+        "sha256": "dc3ae1c3ce8d23cf1d13f9ba6b2e7942d64ef36c2daa8fc4c4ed69a4c0e2a5f7"
+      },
+      "base_lora32_v21": {
+        "file": "fw/0.13.3/base_lora32_v21.bin",
+        "size": 1386224,
+        "sha256": "7b5cb326d93820f5781277d35ca1478872ed8528e1cb6402d6c4850ba113b10d"
+      }
+    }
+  }
+}

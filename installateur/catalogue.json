@@ -1,0 +1,62 @@
+{
+  "format": 1,
+  "version": "0.13.3",
+  "date": "2026-10-10",
+  "boards": {
+    "tracker_heltec_v2": {
+      "file": "../fw/0.13.3/complet/tracker_heltec_v2.bin",
+      "size": 1457872,
+      "sha256": "d22be61cbf5bac29ee2ee6472c778e0a5ae50bdda538c2265bf7eae055491e55"
+    },
+    "tracker_heltec_wt": {
+      "file": "../fw/0.13.3/complet/tracker_heltec_wt.bin",
+      "size": 1333840,
+      "sha256": "b9b66e7e649c960a7854f7616b7ebfe170edae4ed9ef689f96b7a44257e0d932"
+    },
+    "tracker_tbeam": {
+      "file": "../fw/0.13.3/complet/tracker_tbeam.bin",
+      "size": 1501776,
+      "sha256": "401cbb6c97b5cbc57a67b0aa77fbf9478ee3be21b51415d8c9474903a4daffa0"
+    },
+    "tracker_lora32_v21": {
+      "file": "../fw/0.13.3/complet/tracker_lora32_v21.bin",
+      "size": 1486464,
+      "sha256": "38a78fb09bc3ec2d12f8ca527f41c32af83489963c03625f4bc400ca957bf6ce"
+    },
+    "tracker_twatch": {
+      "file": "../fw/0.13.3/complet/tracker_twatch.bin",
+      "size": 1560192,
+      "sha256": "01923c68e47bb57f8bdcfe8460f918c4621fde72e2c676dc3d0e1173647abce5"
+    },
+    "base_heltec_v2": {
+      "file": "../fw/0.13.3/complet/base_heltec_v2.bin",
+      "size": 1457376,
+      "sha256": "3c841e128ddda5f8486523278f789e2f2dfcbf3fafb1e97904cb12d2455f4e16"
+    },
+    "base_heltec_wt": {
+      "file": "../fw/0.13.3/complet/base_heltec_wt.bin",
+      "size": 1308496,
+      "sha256": "5635768c3b6dd1ef50efdf927fee9ee2434dffe5f8d5c590dc137d80d7a91a57"
+    },
+    "base_tbeam": {
+      "file": "../fw/0.13.3/complet/base_tbeam.bin",
+      "size": 1501008,
+      "sha256": "d0b303533be5fac10fa905e706193be1b2b2ed848915a833339a9e86c34bd097"
+    },
+    "base_tsim7000g": {
+      "file": "../fw/0.13.3/complet/base_tsim7000g.bin",
+      "size": 1489360,
+      "sha256": "26b8fb8f846e0bb5a4b533fa7c1cf373c5cc05404ffa7613d5e42d053001e461"
+    },
+    "base_lora32_v21": {
+      "file": "../fw/0.13.3/complet/base_lora32_v21.bin",
+      "size": 1451760,
+      "sha256": "6ca4f5c9c0628d21778d946b7547e49ff0b45ccbf5fe870ca6026976f943f421"
+    },
+    "tracker_techo": {
+      "file": "../fw/0.13.3/complet/tracker_techo.uf2",
+      "size": 514560,
+      "sha256": "eec4946fef322623b4ca4f1fd1fdd9102e4f9c7d568c5fa9a81844f672b96cd6"
+    }
+  }
+}

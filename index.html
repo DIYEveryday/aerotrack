@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AeroTrack</title>
+<meta name="description" content="AeroTrack : tracker GPS open-source pour le vol libre. Installer le logiciel sur une carte, télécharger l'application Android.">
+<link rel="icon" href="installateur/aerotrack.svg" type="image/svg+xml">
+<style>
+:root { --sky-0:#0B1834; --sky-1:#12305E; --sky-2:#1F4F8E; --panel:#0F2550; --panel-2:#14306A; --line:#2A4D88;
+  --ink:#F4FAFF; --ink-2:#BFD3EE; --ink-3:#8FA9CF; --lime:#B6E43C; --lime-hi:#D4F27A; --lime-ink:#0B1834;
+  --font:"Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif; color-scheme: dark; }
+* { box-sizing: border-box; }
+html { background: var(--sky-0); }
+body { margin: 0; min-height: 100vh; font: 17px/1.55 var(--font); color: var(--ink); -webkit-font-smoothing: antialiased;
+  background: radial-gradient(120% 60% at 50% 108%, #3A6CAE 0%, rgba(58,108,174,0) 60%),
+              linear-gradient(180deg, var(--sky-0) 0%, var(--sky-1) 45%, var(--sky-2) 100%) fixed; }
+::selection { background: var(--lime); color: var(--lime-ink); }
+:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; border-radius: 6px; }
+.wrap { width: min(760px, 100% - 32px); margin: 0 auto; padding: 48px 0 72px; }
+.logo { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 26px; font-size: 22px; font-weight: 700; }
+.logo img { width: 56px; height: 56px; border-radius: 15px; box-shadow: 0 8px 22px rgba(3,10,26,.55); }
+.logo span span { color: var(--lime-hi); }
+h1 { font-size: clamp(30px, 5.4vw, 44px); line-height: 1.1; margin: 0; letter-spacing: -0.015em; text-wrap: balance; }
+.lead { color: var(--ink-2); margin: 12px 0 32px; max-width: 58ch; text-wrap: pretty; }
+.actions { display: grid; gap: 12px; }
+a.card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; padding: 20px 22px; border-radius: 16px;
+  background: var(--panel); border: 1px solid var(--line); color: var(--ink); text-decoration: none;
+  transition: border-color .15s ease-out, background-color .15s ease-out; }
+a.card:hover { border-color: var(--ink-3); background: var(--panel-2); }
+a.card.main { background: var(--lime); border-color: var(--lime); color: var(--lime-ink); }
+a.card.main:hover { background: var(--lime-hi); }
+a.card .t { font-weight: 700; font-size: 19px; }
+a.card .d { display: block; font-weight: 400; font-size: 15px; color: var(--ink-3); margin-top: 2px; }
+a.card.main .d { color: #2B3B12; }
+a.card svg { width: 22px; height: 22px; }
+footer { margin-top: 32px; color: var(--ink-3); font-size: 14.5px; }
+h2 { font-size: 19px; margin: 36px 0 8px; }
+.files { color: var(--ink-2); font-size: 15px; }
+.files a { color: var(--lime-hi); }
+.files li + li { margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo"><img src="installateur/aerotrack.svg" alt="" width="56" height="56"><span>Aero<span>Track</span></span></div>
+  <h1>Le tracker GPS open-source du vol libre</h1>
+  <p class="lead">Il transmet la position du pilote à la FFVL (VLSafe), même sans réseau mobile, par une station base et le relais entre pilotes, et le rend visible sur le réseau OGN.</p>
+  <div class="actions">
+    <a class="card main" href="installateur/">
+      <span class="t">Installer le logiciel sur une carte<span class="d">Depuis Chrome ou Edge, avec un câble USB</span></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="card" href="app/AeroTrack-Android.apk">
+      <span class="t">Télécharger l'application Android<span class="d">Configurer et vérifier trackers et stations base ; elle se met ensuite à jour toute seule</span></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+    </a>
+  </div>
+  <h2>Fichiers de mise à jour</h2>
+  <p class="files">Pour mettre une carte à jour depuis sa page de réglages par le WiFi (iPhone, ordinateur : 3 appuis sur le bouton), téléchargez d'abord ici, avec Internet, le fichier au nom de votre carte.</p>
+  <ul class="files" id="fw"><li>…</li></ul>
+  <footer>Projet porté par l'école Aerodream Parapente · <a href="https://github.com/DIYEveryday/aerotrack" style="color:var(--lime-hi)">projet sur GitHub</a>. AeroTrack aide à retrouver un pilote, il ne remplace pas un appel aux secours (112).</footer>
+</div>
+<script>
+fetch("aerotrack-maj.json", { cache: "no-store" }).then((r) => r.json()).then((m) => {
+  const b = m.firmware.boards;
+  document.getElementById("fw").innerHTML = Object.keys(b).sort().map((k) =>
+    "<li><a href='" + b[k].file + "' download>" + k + ".bin</a> (" + Math.round(b[k].size / 1024) + " Ko)</li>").join("") +
+    "<li>Version " + m.firmware.version + ". T-Beam tracker et T-Echo : par câble, avec l'<a href='installateur/'>installateur</a>.</li>";
+}).catch(() => { document.getElementById("fw").innerHTML = "<li>Liste indisponible.</li>"; });
+</script>
+</body>
+</html>
