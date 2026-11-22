@@ -1,0 +1,75 @@
+{
+  "format": 1,
+  "date": "2026-11-22",
+  "notes": "Connexion à la FFVL vérifiée (certificat du serveur) ; plus de positions en double quand un pilote connecté relaie un voisin.",
+  "app": {
+    "version": "1.15.1",
+    "android": {
+      "arm64-v8a": {
+        "file": "app/AeroTrack-1.15.1-arm64.apk",
+        "size": 18763769,
+        "sha256": "9edfb4a3df9db2fce0f53693b0e9846062d10047cfc0c402f1861e4c3fcad9c6"
+      },
+      "armeabi-v7a": {
+        "file": "app/AeroTrack-1.15.1-armv7.apk",
+        "size": 16276183,
+        "sha256": "a7aaeb56dbde62660e93b1e652ede7c16585e09f127ba5baa0a805e9d06eaf61"
+      }
+    }
+  },
+  "firmware": {
+    "version": "0.17.2",
+    "boards": {
+      "tracker_heltec_v2": {
+        "file": "fw/0.17.2/tracker_heltec_v2.bin",
+        "size": 1406400,
+        "sha256": "920844666141d5bde08c79310a08336a7fe08aa7fb3c6478ab213d3a6c416e2a"
+      },
+      "tracker_heltec_wt": {
+        "file": "fw/0.17.2/tracker_heltec_wt.bin",
+        "size": 1281968,
+        "sha256": "af42ad21f170945decbc7e4398cf1100db071f75bfeb1963de8f427cb44338dd"
+      },
+      "tracker_lora32_v21": {
+        "file": "fw/0.17.2/tracker_lora32_v21.bin",
+        "size": 1435008,
+        "sha256": "7aa8cb11fe0afa8ec3344981f9ad4011c333ec35f39d9eaab2251885640413af"
+      },
+      "tracker_tbeam": {
+        "file": "fw/0.17.2/tracker_tbeam.bin",
+        "size": 1450416,
+        "sha256": "49017c1a652fae66765d440c967b8ad5915ce271eb7150fff4a602ea4a655b06"
+      },
+      "tracker_twatch": {
+        "file": "fw/0.17.2/tracker_twatch.bin",
+        "size": 1508880,
+        "sha256": "fae9ea5f22fba86c07ee6ca68bd09d5a477da027c7d4c59cf2c91f9706205623"
+      },
+      "base_heltec_v2": {
+        "file": "fw/0.17.2/base_heltec_v2.bin",
+        "size": 1411712,
+        "sha256": "477835a3b12ed23d1f1c4c9fce41a9d89381d121a12b6a13ec685b97556246b9"
+      },
+      "base_heltec_wt": {
+        "file": "fw/0.17.2/base_heltec_wt.bin",
+        "size": 1271312,
+        "sha256": "aeb94404d9fae23ff99b813011016601ac7262a7376a44f45a880ef83c9d7a76"
+      },
+      "base_tbeam": {
+        "file": "fw/0.17.2/base_tbeam.bin",
+        "size": 1455616,
+        "sha256": "17381e91463f9942285d6750cab55ac484212290a2157d87e0ef66657a8b0a60"
+      },
+      "base_tsim7000g": {
+        "file": "fw/0.17.2/base_tsim7000g.bin",
+        "size": 1450928,
+        "sha256": "bc89eeb943a49a3d866b0f5d5ecfd85fd9b16d7c601f308819de6faaeebab93a"
+      },
+      "base_lora32_v21": {
+        "file": "fw/0.17.2/base_lora32_v21.bin",
+        "size": 1412384,
+        "sha256": "daedbeb4fa8c505249997b4849e43c3b490462dda6bcdaff573ae029d6f26b01"
+      }
+    }
+  }
+}

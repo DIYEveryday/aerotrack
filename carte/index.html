@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carte des bases AeroTrack</title>
+<meta name="description" content="Stations base AeroTrack LoRa : état en direct, couverture radio mesurée, trackers, FANET et OGN, sites de vol et balises de la FFVL.">
+<link rel="icon" href="../installateur/aerotrack.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="carte.css?v=17">
+</head>
+<body>
+<header class="barre">
+  <a class="marque" href="../" aria-label="Accueil AeroTrack">
+    <img src="../installateur/aerotrack.svg" alt="" width="28" height="28">
+    <span>Aero<b>Track</b></span>
+  </a>
+  <h1>Carte des bases</h1>
+  <button id="ouvrir-panneau" class="bouton-icone" aria-controls="panneau" aria-expanded="false" title="Bases et calques">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+</header>
+
+<div id="alertes" role="alert" aria-live="assertive"></div>
+
+<main class="cadre">
+  <aside id="panneau" class="panneau" aria-label="Bases et calques">
+    <section class="bilan" aria-live="polite">
+      <div><strong id="n-bases">–</strong><span>bases</span></div>
+      <div><strong id="n-enligne">–</strong><span>en ligne</span></div>
+      <div><strong id="n-aeronefs">–</strong><span>aéronefs</span></div>
+    </section>
+
+    <section>
+      <h2>Appareils <span id="n-liste" class="compte"></span></h2>
+      <ul id="liste-avions" class="liste-avions" aria-label="Appareils affichés sur la carte"><li class="vide">Chargement…</li></ul>
+    </section>
+
+    <section>
+      <h2>Bases</h2>
+      <ul id="liste-bases" class="liste-bases"><li class="vide">Chargement…</li></ul>
+    </section>
+
+    <section>
+      <h2>Afficher</h2>
+      <fieldset class="calques">
+        <legend>Aéronefs</legend>
+        <label><input type="checkbox" data-calque="aerotrack" checked><span class="pastille at"></span>Trackers AeroTrack</label>
+        <label><input type="checkbox" data-calque="fanet" checked><span class="pastille fn"></span>Vol libre FANET et OGN</label>
+        <label><input type="checkbox" data-calque="autres"><span class="pastille au"></span>Avions, hélicos, planeurs…</label>
+        <label><input type="checkbox" data-calque="traces"><span class="pastille tr"></span>Traces (30 min)</label>
+      </fieldset>
+      <fieldset class="calques">
+        <legend>Réseau radio</legend>
+        <label><input type="checkbox" data-calque="chemins"><span class="pastille ch"></span>Chemin radio des positions</label>
+        <label><input type="checkbox" data-calque="liens"><span class="pastille li"></span>Liaisons entre bases</label>
+        <label><input type="checkbox" data-calque="couverture"><span class="pastille couv"></span>Couverture mesurée</label>
+        <label><input type="checkbox" data-calque="couvmobile"><span class="pastille couvm"></span>Couverture des bases mobiles (temporaire)</label>
+      </fieldset>
+      <fieldset class="calques">
+        <legend>Sites FFVL</legend>
+        <label><input type="checkbox" data-calque="sites"><span class="pastille si"></span>Sites de vol</label>
+        <label><input type="checkbox" data-calque="balises"><span class="pastille ba"></span>Balises météo</label>
+      </fieldset>
+      <p class="aide" id="aide-zoom" hidden>Sites et balises apparaissent en zoomant sur une région.</p>
+      <ul class="legende-sites" id="legende-sites" aria-label="Légende des sites de vol" hidden></ul>
+    </section>
+
+    <section class="legende" id="legende-couverture" hidden>
+      <h2>Couverture</h2>
+      <div class="degrade" aria-hidden="true"></div>
+      <div class="degrade-texte"><span>faible</span><span>bon signal</span></div>
+      <p class="aide">Chaque case (≈ 500 m) montre le meilleur signal reçu <em>en direct</em> par une base. Elle se remplit à mesure que des pilotes volent : c'est une mesure réelle, pas une simulation. Aucune case ne dit qui volait là.</p>
+    </section>
+
+    <section class="legende" id="legende-couverture-mobile" hidden>
+      <h2>Couverture des bases mobiles</h2>
+      <div class="degrade mobile" aria-hidden="true"></div>
+      <div class="degrade-texte"><span>faible</span><span>bon signal</span></div>
+      <p class="aide">Mesurée par des bases <em>emportées</em> sur les sites de vol le temps d'une journée. Elle montre où une base mobile a déjà été entendue, <strong>pas</strong> une couverture permanente : sur place, la base n'y est peut-être plus.</p>
+    </section>
+
+    <section class="apropos">
+      <p>Une base apparaît ici seulement si son propriétaire l'a choisi (réglage « Apparaître sur la carte » dans l'application). Les pilotes qui refusent le suivi en ligne (OGN) n'y figurent jamais.</p>
+      <p class="sources">Sites et balises : <a href="https://www.data.gouv.fr/organizations/federation-francaise-de-vol-libre/" rel="noopener">FFVL, données ouvertes</a> · Aéronefs : <a href="https://www.glidernet.org" rel="noopener">réseau OGN</a> · <span id="maj">–</span></p>
+    </section>
+  </aside>
+
+  <div id="carte" class="carte" aria-label="Carte"></div>
+  <div id="suivi" class="suivi" role="status" aria-live="polite" hidden></div>
+  <button id="ma-position" class="bouton-flottant" title="Ma position" aria-label="Centrer sur ma position">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+  </button>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="carte.js?v=17"></script>
+</body>
+</html>

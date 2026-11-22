@@ -1,0 +1,316 @@
+/* AeroTrack — carte des bases. Univers de l'icône : ciel de nuit, vert anis, voile blanche. */
+:root {
+  --sky-0: #0B1834;
+  --sky-1: #12305E;
+  --panel: #0F2550;
+  --panel-2: #14306A;
+  --line: #2A4D88;
+  --ink: #F4FAFF;
+  --ink-2: #BFD3EE;
+  --ink-3: #8FA9CF;
+  --lime: #B6E43C;
+  --lime-ink: #0B1834;
+  --lake: #26B3C4;
+  --sun: #FFD27A;
+  --bad: #FF5A4E;
+  --bad-soft: #FF9A8F;
+  --gray: #8A9AB5;
+  --radius: 12px;
+  --barre: 52px;
+  --font: "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--sky-0);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+a { color: var(--lime); }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+/* ── Barre du haut ─────────────────────────────── */
+.barre {
+  height: var(--barre);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 14px;
+  background: linear-gradient(180deg, var(--sky-1), var(--sky-0));
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  z-index: 1001;
+}
+.marque { display: flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; font-weight: 600; letter-spacing: .01em; }
+.marque b { color: var(--lime); font-weight: 600; }
+.barre h1 { font-size: 15px; font-weight: 500; color: var(--ink-2); margin: 0; padding-left: 14px; border-left: 1px solid var(--line); }
+.bouton-icone {
+  margin-left: auto; display: none;
+  width: 40px; height: 40px; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer;
+}
+.bouton-icone svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
+
+/* ── Alertes SOS ───────────────────────────────── */
+#alertes { position: absolute; top: calc(var(--barre) + 10px); left: 50%; transform: translateX(-50%); z-index: 1002;
+  display: flex; flex-direction: column; gap: 8px; width: min(560px, calc(100% - 32px)); pointer-events: none; }
+.alerte {
+  pointer-events: auto;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bad); color: #fff; border-radius: var(--radius);
+  padding: 10px 12px 10px 14px; box-shadow: 0 8px 28px rgba(0,0,0,.45);
+}
+.alerte strong { font-size: 16px; letter-spacing: .04em; }
+.alerte .detail { flex: 1; min-width: 0; font-size: 14px; }
+.alerte .detail span { display: block; opacity: .9; font-size: 13px; }
+.alerte button { border: 0; border-radius: 8px; background: #fff; color: #B3261E; font-weight: 600; padding: 8px 12px; cursor: pointer; }
+.alerte button.reduire { background: transparent; color: #fff; padding: 6px; margin: -4px -4px -4px -6px; display: grid; place-items: center; }
+.alerte button.reduire svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.alerte-mini {
+  pointer-events: auto; align-self: center; display: inline-flex; align-items: center; gap: 8px;
+  border: 0; border-radius: 999px; background: var(--bad); color: #fff; font: inherit; font-size: 13px; font-weight: 700;
+  letter-spacing: .02em; padding: 6px 14px 6px 10px; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.4);
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.alerte-mini .voyant { flex: none; width: 9px; height: 9px; border-radius: 50%; background: #fff; animation: clignote 1.2s ease-in-out infinite; }
+@keyframes clignote { 50% { opacity: .25; } }
+
+/* ── Mise en page ──────────────────────────────── */
+.cadre { position: relative; display: flex; height: calc(100% - var(--barre)); }
+.carte { flex: 1; height: 100%; background: #0d1d3b; }
+.panneau {
+  width: 330px; flex: none; height: 100%; overflow-y: auto;
+  background: var(--panel); border-right: 1px solid var(--line);
+  padding: 14px 14px 24px;
+  scrollbar-color: var(--line) transparent;
+}
+.panneau section + section { margin-top: 20px; }
+.panneau h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 600; margin: 0 0 8px; }
+
+.bilan { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.bilan div { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.bilan strong { display: block; font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bilan span { font-size: 12px; color: var(--ink-3); }
+
+.compte { font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink-3); }
+.liste-avions {
+  list-style: none; margin: 0; padding: 4px; display: flex; flex-direction: column; gap: 4px;
+  max-height: 248px; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--sky-0); border: 1px solid var(--line); border-radius: 12px;
+  scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+}
+.liste-avions .vide { color: var(--ink-3); font-size: 13px; padding: 8px; }
+.liste-avions button {
+  width: 100%; text-align: left; display: grid; grid-template-columns: 10px 1fr auto; align-items: center; gap: 10px;
+  background: var(--panel-2); border: 1px solid transparent; border-radius: 8px; color: var(--ink);
+  padding: 7px 9px; cursor: pointer; font: inherit;
+}
+.liste-avions button:hover { border-color: var(--line); background: #17366f; }
+.liste-avions .nom { font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.liste-avions .detail { display: block; font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.liste-avions .badge { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 999px; background: rgba(182,228,60,.16); color: var(--lime); }
+.liste-avions .badge.sos { background: var(--bad); color: #fff; }
+.liste-avions .vieux { opacity: .6; }
+.liste-avions .pt { width: 10px; height: 10px; border-radius: 50%; }
+.liste-avions .pt.A { background: var(--lime); }
+.liste-avions .pt.F { background: var(--lake); }
+.liste-avions .pt.O { background: var(--ink-2); }
+.liste-avions .pt.sos { background: var(--bad); box-shadow: 0 0 0 3px rgba(255,90,78,.3); }
+.liste-bases { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.liste-bases .vide { color: var(--ink-3); font-size: 14px; padding: 4px 2px; }
+.liste-bases button {
+  width: 100%; text-align: left; display: grid; grid-template-columns: 12px 1fr auto; align-items: center; gap: 10px;
+  background: var(--panel-2); border: 1px solid transparent; border-radius: 10px; color: var(--ink);
+  padding: 9px 10px; cursor: pointer; transition: border-color .15s, background .15s;
+}
+.liste-bases button:hover { border-color: var(--line); background: #17366f; }
+.liste-bases .nom { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.liste-bases .etat { display: block; font-size: 12px; color: var(--ink-3); }
+.liste-bases .trk { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.point { width: 10px; height: 10px; border-radius: 50%; background: var(--gray); }
+.point.enligne { background: var(--lime); box-shadow: 0 0 0 3px rgba(182,228,60,.2); }
+.point.relais { background: var(--lake); }
+.point.attention { background: var(--sun); }
+
+.calques { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.calques + .calques { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.calques legend { padding: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.calques label { display: flex; align-items: center; gap: 10px; padding: 6px 4px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+.calques label:hover { background: var(--panel-2); }
+.calques input { width: 16px; height: 16px; accent-color: var(--lime); margin: 0; }
+.pastille { width: 14px; height: 4px; border-radius: 2px; }
+.pastille.couv { height: 10px; background: linear-gradient(90deg, #F2994A, #B6E43C); }
+.pastille.at { background: var(--lime); }
+.pastille.fn { background: var(--lake); }
+.pastille.au { background: var(--ink-2); }
+.pastille.tr { background: repeating-linear-gradient(90deg, var(--ink-2) 0 4px, transparent 4px 6px); }
+.pastille.li { background: repeating-linear-gradient(90deg, var(--lake) 0 5px, transparent 5px 8px); }
+.pastille.ch { background: repeating-linear-gradient(90deg, #B6E43C 0 2px, transparent 2px 6px); height: 4px; }
+.pastille.si { height: 10px; width: 10px; border-radius: 50%; background: conic-gradient(#B6E43C 0 25%, #0B1834 25% 100%); border: 1px solid #fff; }
+.pastille.ba { height: 10px; width: 10px; border-radius: 50%; background: var(--sun); }
+.pastille.couvm { background: linear-gradient(90deg, #7E6FD9, #6FD6E0); }
+.aide { font-size: 13px; color: var(--ink-3); margin: 8px 0 0; }
+
+.degrade { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #E8553D, #F2994A, #FFD27A, #B6E43C); }
+.degrade.mobile { background: linear-gradient(90deg, #6B4FB3, #7E6FD9, #5FA3E8, #6FD6E0); }
+.degrade-texte { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-3); margin-top: 4px; }
+.apropos p { font-size: 13px; color: var(--ink-2); margin: 0 0 8px; }
+.apropos .sources { color: var(--ink-3); font-size: 12px; }
+
+.bouton-flottant {
+  position: absolute; right: 12px; bottom: 28px; z-index: 1000;
+  width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--panel); color: var(--ink); cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.35);
+}
+.bouton-flottant svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+/* ── Leaflet aux couleurs AeroTrack ───────────── */
+.leaflet-container { font-family: var(--font); }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--panel); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,.45); }
+.leaflet-popup-content { margin: 12px 14px; font-size: 14px; line-height: 1.45; min-width: 210px; }
+.leaflet-container a.leaflet-popup-close-button { color: var(--ink-3); }
+.leaflet-control-layers, .leaflet-bar a { background: var(--panel); color: var(--ink); border-color: var(--line) !important; }
+.leaflet-control-layers-expanded { padding: 8px 10px; }
+.leaflet-bar a:hover { background: var(--panel-2); }
+.leaflet-control-attribution { background: rgba(11,24,52,.75) !important; color: var(--ink-3); }
+.leaflet-control-attribution a { color: var(--ink-2); }
+.leaflet-tooltip { background: var(--panel); color: var(--ink); border: 1px solid var(--line); box-shadow: none; }
+.leaflet-tooltip-top:before { border-top-color: var(--line); }
+
+.fiche h3 { margin: 0 0 2px; font-size: 16px; font-weight: 600; }
+.fiche .sous { color: var(--ink-3); font-size: 12px; margin-bottom: 8px; }
+.fiche dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 8px 0 0; }
+.fiche dt { color: var(--ink-3); }
+.fiche dd { margin: 0; font-variant-numeric: tabular-nums; }
+.fiche .etiquette { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--gray); color: var(--lime-ink); }
+.fiche .etiquette.enligne { background: var(--lime); }
+.fiche .etiquette.relais { background: var(--lake); }
+.fiche .etiquette.attention { background: var(--sun); }
+.fiche .etiquette.sos { background: var(--bad); color: #fff; }
+.fiche .etiquette.mobile { background: transparent; color: #A99BF0; border: 1px dashed #A99BF0; margin-left: 4px; }
+.fiche .actions { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
+.fiche .actions button, .fiche .actions a {
+  border: 1px solid var(--line); background: var(--panel-2); color: var(--ink); border-radius: 8px;
+  padding: 5px 9px; font-size: 13px; cursor: pointer; text-decoration: none;
+}
+.fiche .note { font-size: 12px; color: var(--ink-3); margin-top: 8px; }
+
+/* Marqueurs */
+.m-base { display: grid; place-items: center; }
+.m-base .rond {
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--sky-0); border: 2.5px solid var(--gray); box-shadow: 0 2px 8px rgba(0,0,0,.5);
+}
+.m-base svg { width: 18px; height: 18px; stroke: var(--gray); fill: none; stroke-width: 2; stroke-linecap: round; }
+.m-base.enligne .rond { border-color: var(--lime); } .m-base.enligne svg { stroke: var(--lime); }
+.m-base.relais .rond { border-color: var(--lake); } .m-base.relais svg { stroke: var(--lake); }
+.m-base.attention .rond { border-color: var(--sun); } .m-base.attention svg { stroke: var(--sun); }
+/* Base mobile : contour en pointillés + pastille « M » (emportée sur les sites, pas installée à demeure) */
+.m-base.mobile .rond { border-style: dashed; position: relative; }
+.m-base.mobile .rond::after {
+  content: "M"; position: absolute; right: -7px; bottom: -5px; width: 15px; height: 15px; border-radius: 50%;
+  background: #7E6FD9; color: #fff; font-size: 9px; font-weight: 700; line-height: 15px; text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,.6);
+}
+.m-base .nom {
+  margin-top: 3px; font-size: 12px; font-weight: 600; white-space: nowrap; color: var(--ink);
+  text-shadow: 0 1px 2px #000, 0 0 6px rgba(11,24,52,.9);
+}
+.m-avion { position: relative; }
+.m-avion svg { width: 26px; height: 26px; display: block; filter: drop-shadow(0 1px 2px rgba(0,0,0,.7)); }
+.m-avion .etiq {
+  position: absolute; left: 24px; top: 2px; white-space: nowrap; font-size: 11px; font-weight: 600;
+  color: var(--ink); text-shadow: 0 1px 2px #000, 0 0 5px rgba(11,24,52,.95); font-variant-numeric: tabular-nums;
+}
+.m-avion .etiq.deux { top: -3px; line-height: 1.15; }
+.m-avion .etiq.deux b { display: block; font-size: 12px; font-weight: 700; }
+.m-avion .etiq.deux small { display: block; font-size: 10px; font-weight: 500; color: var(--ink-2); }
+.m-avion.vieux { opacity: .5; }
+.m-avion.sos::before {
+  content: ""; position: absolute; left: -9px; top: -9px; width: 44px; height: 44px; border-radius: 50%;
+  border: 3px solid var(--bad); animation: pulsation 1.4s ease-out infinite;
+}
+@keyframes pulsation { from { transform: scale(.6); opacity: 1; } to { transform: scale(1.5); opacity: 0; } }
+.m-site { position: relative; width: 34px; height: 34px; }
+.m-site svg { display: block; filter: drop-shadow(0 1px 2px rgba(0,0,0,.55)); }
+.m-site .nom {
+  position: absolute; left: 50%; top: 33px; transform: translateX(-50%); white-space: nowrap;
+  font-size: 11px; font-weight: 600; color: var(--ink); text-shadow: 0 1px 2px #000, 0 0 5px rgba(11,24,52,.95);
+}
+.m-site-point { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #0B1834; box-shadow: 0 0 0 1px rgba(255,255,255,.7); }
+.m-site-point.D { background: #B6E43C; }
+.m-site-point.A { background: #F2B25C; }
+.m-site-point.T { background: #C9B6F2; }
+.m-site-point.interdit { background: #8A9AB5; }
+.fiche-site { display: flex; align-items: center; gap: 12px; }
+.fiche-site .rose { flex: none; }
+.fiche-site dl { flex: 1; }
+.panneau [hidden] { display: none !important; }
+.legende-sites { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.legende-sites li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); }
+.legende-sites svg { width: 26px; height: 26px; flex: none; }
+.couverture-floue { pointer-events: none; }
+.leaflet-pane path.chemin { animation: flux 0.9s linear infinite; }
+@keyframes flux { to { stroke-dashoffset: -10; } }
+.m-balise { display: grid; place-items: center; }
+.m-balise svg { width: 30px; height: 30px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.6)); }
+.m-balise .v { margin-top: -6px; font-size: 11px; font-weight: 700; color: var(--ink); text-shadow: 0 1px 2px #000; font-variant-numeric: tabular-nums; }
+
+/* ── Suivi d'un aéronef ────────────────────────── */
+.suivi {
+  position: absolute; z-index: 1000; bottom: 28px; left: calc(330px + 12px); right: 68px; max-width: 480px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 8px 8px 8px 12px; box-shadow: 0 8px 28px rgba(0,0,0,.45);
+}
+.suivi[hidden] { display: none; }
+.suivi.sos { border-color: var(--bad); }
+.suivi .voyant { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 4px rgba(182,228,60,.2); }
+.suivi .voyant.perdu { background: var(--gray); box-shadow: none; }
+.suivi.sos .voyant { background: var(--bad); box-shadow: 0 0 0 4px rgba(255,90,78,.25); }
+.suivi .detail { flex: 1; min-width: 0; font-size: 14px; }
+.suivi .detail strong { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.suivi .detail span { display: block; font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.suivi button {
+  flex: none; border: 1px solid var(--line); background: var(--panel-2); color: var(--ink); border-radius: 8px;
+  padding: 8px 10px; font-size: 13px; cursor: pointer; min-height: 36px;
+}
+.fiche .actions .principal { background: var(--lime); color: var(--lime-ink); border-color: var(--lime); font-weight: 600; }
+
+.message {
+  position: absolute; z-index: 1001; bottom: 84px; left: 50%; transform: translateX(-50%);
+  max-width: calc(100% - 32px); padding: 8px 14px; border-radius: 10px;
+  background: var(--panel); border: 1px solid var(--line); color: var(--ink); font-size: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.4);
+}
+.message[hidden] { display: none; }
+
+/* ── Dans l'application (?app=1) : le logo sert de bouton retour ── */
+.marque .retour { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; margin-right: -2px; }
+.app .marque img { display: none; }
+
+/* ── Téléphone : panneau en tiroir ─────────────── */
+@media (max-width: 760px) {
+  .barre h1 { font-size: 14px; }
+  .bouton-icone { display: grid; place-items: center; }
+  .panneau {
+    position: absolute; z-index: 1001; left: 0; top: 0; bottom: 0; width: min(340px, 88vw);
+    transform: translateX(-102%); transition: transform .22s ease-out; box-shadow: 8px 0 30px rgba(0,0,0,.4);
+  }
+  .panneau.ouvert { transform: none; }
+  #alertes { top: calc(var(--barre) + 8px); }
+  .suivi { left: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-avion.sos::before { animation: none; transform: scale(1.1); }
+  .leaflet-pane path.chemin { animation: none; }
+  .panneau { transition: none; }
+  .alerte-mini .voyant { animation: none; }
+}

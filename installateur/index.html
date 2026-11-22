@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installer AeroTrack</title>
+<meta name="description" content="Installez le logiciel AeroTrack sur votre tracker ou votre station base, depuis le navigateur, avec un câble USB.">
+<link rel="icon" href="aerotrack.svg" type="image/svg+xml">
+<style>
+:root {
+  --sky-0: #0B1834;
+  --sky-1: #12305E;
+  --sky-2: #1F4F8E;
+  --panel: #0F2550;
+  --panel-2: #14306A;
+  --line: #2A4D88;
+  --ink: #F4FAFF;
+  --ink-2: #BFD3EE;
+  --ink-3: #8FA9CF;
+  --lime: #B6E43C;
+  --lime-hi: #D4F27A;
+  --lime-ink: #0B1834;
+  --lake: #26B3C4;
+  --sun: #FFD27A;
+  --bad: #FF9A8F;
+  --radius: 14px;
+  --font: "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--sky-0); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font: 17px/1.55 var(--font);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(120% 60% at 50% 108%, #3A6CAE 0%, rgba(58,108,174,0) 60%),
+    linear-gradient(180deg, var(--sky-0) 0%, var(--sky-1) 45%, var(--sky-2) 100%) fixed;
+}
+::selection { background: var(--lime); color: var(--lime-ink); }
+:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; border-radius: 6px; }
+html { scrollbar-color: var(--line) var(--sky-0); }
+a { color: var(--lime-hi); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+code { font-family: Consolas, "Cascadia Mono", monospace; font-size: .92em; color: var(--ink-2); }
+
+.wrap { width: min(760px, 100% - 32px); margin: 0 auto; padding: 40px 0 72px; }
+
+/* ── En-tête ── */
+header { margin-bottom: 36px; }
+.logo { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 26px; font-size: 22px; font-weight: 700; letter-spacing: .005em; }
+.logo img { width: 56px; height: 56px; border-radius: 15px; box-shadow: 0 8px 22px rgba(3,10,26,.55); }
+.logo span span { color: var(--lime-hi); }
+h1 { font-size: clamp(30px, 5.4vw, 44px); line-height: 1.1; margin: 0; letter-spacing: -0.015em; text-wrap: balance; }
+.lead { color: var(--ink-2); margin: 10px 0 0; max-width: 56ch; }
+
+/* ── Avertissements ── */
+.notice { border-radius: var(--radius); padding: 16px 18px; margin: 0 0 24px; background: #3B2A12; color: #FFE7B8; }
+.notice strong { color: #FFF4D6; }
+.notice[hidden] { display: none; }
+
+/* ── Étapes ── */
+main { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; box-shadow: 0 24px 60px rgba(3,10,26,.5); overflow: hidden; }
+.step { padding: 26px 28px 28px; }
+.step + .step { border-top: 1px solid var(--line); }
+.step h2 { display: flex; align-items: baseline; gap: 12px; margin: 0 0 16px; font-size: 21px; line-height: 1.25; }
+.step h2 .n { flex: none; display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--panel-2); border: 1px solid var(--line); color: var(--lime-hi); font-size: 15px; font-variant-numeric: tabular-nums; transform: translateY(-2px); }
+.step.done h2 .n { background: var(--lime); border-color: var(--lime); color: var(--lime-ink); }
+.step.locked { opacity: .45; }
+.step.locked .choices, .step.locked .act { pointer-events: none; }
+.hint { color: var(--ink-3); margin: -6px 0 16px; font-size: 15px; }
+
+/* Choix (cartes, rôle, type d'installation) : rangées sélectionnables */
+.choices { display: grid; gap: 8px; }
+.choice { position: relative; display: grid; grid-template-columns: 22px 1fr auto; gap: 14px; align-items: center; padding: 14px 16px; border-radius: 12px; background: var(--panel-2); border: 1px solid transparent; cursor: pointer; transition: border-color .15s ease-out, background-color .15s ease-out; }
+.choice:hover { border-color: var(--line); background: #183873; }
+.choice input { position: absolute; opacity: 0; pointer-events: none; }
+.choice .dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--ink-3); display: grid; place-items: center; transition: border-color .15s ease-out; }
+.choice .dot::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--lime); transform: scale(0); transition: transform .18s cubic-bezier(.2,0,0,1); }
+.choice input:checked ~ .dot { border-color: var(--lime); }
+.choice input:checked ~ .dot::after { transform: scale(1); }
+.choice:has(input:checked) { border-color: var(--lime); background: #1A3B74; }
+.choice:has(input:focus-visible) { outline: 3px solid var(--lime); outline-offset: 2px; }
+.choice:has(input:disabled) { opacity: .4; cursor: not-allowed; }
+.choice .t { font-weight: 650; line-height: 1.3; }
+.choice .d { display: block; color: var(--ink-3); font-size: 14.5px; font-weight: 400; margin-top: 2px; }
+.tag { font-size: 12.5px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+.roles { grid-template-columns: 1fr 1fr; }
+@media (max-width: 560px) { .roles { grid-template-columns: 1fr; } .choice { grid-template-columns: 22px 1fr; } .tag { display: none; } }
+
+/* ── Installation ── */
+.act { display: grid; gap: 18px; }
+.go { appearance: none; border: 0; border-radius: 14px; background: var(--lime); color: var(--lime-ink); font: 700 19px/1 var(--font); padding: 20px 26px; min-height: 60px; cursor: pointer; box-shadow: 0 8px 22px rgba(120,170,20,.28); transition: transform .12s ease-out, background-color .15s ease-out, box-shadow .15s ease-out; justify-self: start; }
+.go:hover { background: var(--lime-hi); }
+.go:active { transform: scale(.97); }
+.go:disabled { background: #3C5577; color: #9FB3D1; box-shadow: none; cursor: not-allowed; }
+.go.secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); box-shadow: none; font-size: 16px; padding: 14px 20px; min-height: 48px; }
+.go.secondary:hover { border-color: var(--ink-3); }
+.plug { margin: 0; padding-left: 20px; color: var(--ink-2); }
+.plug li + li { margin-top: 4px; }
+
+/* Signature : la crête de l'icône s'allume avec la progression */
+.progress { display: none; gap: 10px; }
+.progress.on { display: grid; }
+.ridge { width: 100%; height: auto; display: block; overflow: visible; }
+.ridge .base { fill: none; stroke: var(--line); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.ridge .lit { fill: none; stroke: var(--lime-hi); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 6px rgba(182,228,60,.65)); transition: stroke-dashoffset .35s cubic-bezier(.2,0,0,1); }
+.status { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+.status .what { color: var(--ink-2); }
+.status .pct { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lime-hi); }
+
+.result { border-radius: var(--radius); padding: 18px 20px; display: none; }
+.result.on { display: block; }
+.result h3 { margin: 0 0 6px; font-size: 19px; display: flex; gap: 10px; align-items: center; }
+.result p { margin: 6px 0 0; color: var(--ink-2); }
+.result ol { margin: 8px 0 0; padding-left: 20px; color: var(--ink-2); }
+.result.ok { background: #16391F; }
+.result.ok h3 { color: #C8F59A; }
+.result.err { background: #45201D; }
+.result.err h3 { color: #FFD3CC; }
+.result.err p, .result.err ol { color: #FFE2DD; }
+.result svg { flex: none; }
+
+.uf2 ol { margin: 0; padding-left: 20px; color: var(--ink-2); }
+.uf2 ol li + li { margin-top: 6px; }
+.dl { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+
+details.more { margin-top: 4px; color: var(--ink-3); font-size: 15px; }
+details.more summary { cursor: pointer; width: max-content; }
+details.more summary:hover { color: var(--ink); }
+.more-body { display: grid; gap: 12px; margin-top: 12px; }
+.log { margin: 0; max-height: 220px; overflow: auto; background: #08142C; border-radius: 10px; padding: 12px 14px; font: 12.5px/1.5 Consolas, "Cascadia Mono", monospace; color: var(--ink-3); white-space: pre-wrap; }
+.file-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.file-row input { color: var(--ink-2); font: inherit; font-size: 14.5px; }
+
+footer { margin-top: 28px; color: var(--ink-3); font-size: 14.5px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+footer .v { font-variant-numeric: tabular-nums; }
+
+@media (max-width: 560px) {
+  .wrap { padding-top: 24px; }
+  .logo { margin-bottom: 18px; }
+  .step { padding: 22px 18px 24px; }
+  .go { justify-self: stretch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo"><img src="aerotrack.svg" alt="" width="56" height="56"><span>Aero<span>Track</span></span></div>
+    <h1>Installer le logiciel sur votre carte</h1>
+    <p class="lead">Un câble USB, le navigateur Chrome ou Edge sur un ordinateur, deux minutes. Rien à installer sur l'ordinateur.</p>
+  </header>
+
+  <p class="notice" id="no-serial" hidden><strong>Ce navigateur ne peut pas parler à la carte.</strong> Ouvrez cette page dans <strong>Google Chrome</strong> ou <strong>Microsoft Edge</strong>, sur un ordinateur (Windows, Mac ou Linux). Les téléphones, Firefox et Safari ne le permettent pas.</p>
+  <p class="notice" id="offline" hidden><strong>Page ouverte depuis l'ordinateur.</strong> Les logiciels ne se téléchargent pas ici : choisissez votre carte puis, à l'étape 3, ouvrez « Avancé » et sélectionnez le fichier <code>.bin</code> du dossier <code>binaires</code> du projet. La page en ligne, elle, s'occupe de tout.</p>
+
+  <main>
+    <section class="step" id="step-board">
+      <h2><span class="n">1</span>Votre carte</h2>
+      <div class="choices" id="boards" role="radiogroup" aria-label="Votre carte"></div>
+    </section>
+
+    <section class="step locked" id="step-role">
+      <h2><span class="n">2</span>Son rôle</h2>
+      <div class="choices roles" role="radiogroup" aria-label="Rôle de la carte">
+        <label class="choice">
+          <input type="radio" name="role" value="tracker"><span class="dot"></span>
+          <span class="t">Tracker<span class="d">porté par le pilote en vol</span></span>
+        </label>
+        <label class="choice">
+          <input type="radio" name="role" value="base"><span class="dot"></span>
+          <span class="t">Station base<span class="d">au sol, transmet les pilotes à la FFVL</span></span>
+        </label>
+      </div>
+    </section>
+
+    <section class="step locked" id="step-install">
+      <h2><span class="n">3</span>Installer</h2>
+
+      <div class="act" id="esp-flow">
+        <div class="choices" role="radiogroup" aria-label="Type d'installation">
+          <label class="choice">
+            <input type="radio" name="mode" value="first"><span class="dot"></span>
+            <span class="t">Première installation d'AeroTrack sur cette carte<span class="d">efface tout ce qu'elle contient (logiciel d'origine, anciens réglages)</span></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="mode" value="update"><span class="dot"></span>
+            <span class="t">Mise à jour<span class="d">AeroTrack est déjà installé : WiFi, clé pilote et téléphones appairés sont conservés</span></span>
+          </label>
+        </div>
+
+        <ol class="plug">
+          <li>Branchez la carte à l'ordinateur avec un câble USB <strong>de données</strong> (certains câbles ne font que charger).</li>
+          <li>Cliquez sur le bouton, puis choisissez la carte dans la fenêtre du navigateur (souvent « USB Serial », « CP210x », « CH9102 » ou « ESP32-S3 »).</li>
+        </ol>
+
+        <button class="go" id="go" type="button" disabled>Installer AeroTrack</button>
+
+        <div class="progress" id="progress" aria-live="polite">
+          <svg class="ridge" viewBox="0 0 640 120" aria-hidden="true">
+            <path class="base" id="ridge-base" d="M 8 112 L 140 40 L 196 8 L 262 70 L 308 48 L 360 22 L 466 92 L 632 112"/>
+            <path class="lit" id="ridge-lit" d="M 8 112 L 140 40 L 196 8 L 262 70 L 308 48 L 360 22 L 466 92 L 632 112"/>
+          </svg>
+          <div class="status"><span class="what" id="what">Préparation…</span><span class="pct" id="pct">0 %</span></div>
+        </div>
+
+        <div class="result" id="result" role="status"></div>
+      </div>
+
+      <div class="act uf2" id="uf2-flow" hidden>
+        <ol>
+          <li>Téléchargez le logiciel du T-Echo : <a class="dl" id="uf2-link" href="#" download>AeroTrack pour T-Echo (.uf2)</a></li>
+          <li>Branchez le T-Echo en USB, puis <strong>appuyez deux fois rapidement</strong> sur son bouton reset : un lecteur <strong>TECHOBOOT</strong> apparaît, comme une clé USB.</li>
+          <li><strong>Glissez le fichier</strong> sur ce lecteur. Le T-Echo redémarre tout seul sous AeroTrack ; le lecteur disparaît, c'est normal.</li>
+        </ol>
+      </div>
+
+      <details class="more" id="more">
+        <summary>Avancé</summary>
+        <div class="more-body">
+          <div class="file-row">
+            <label for="file">Installer un fichier téléchargé (<code>.bin</code> complet, adresse 0x0) :</label>
+            <input type="file" id="file" accept=".bin">
+          </div>
+          <pre class="log" id="log" aria-label="Journal technique"></pre>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <span class="v" id="version"></span>
+    <a href="https://github.com/DIYEveryday/aerotrack">Projet sur GitHub</a>
+    <span>Installation par esptool-js (Espressif)</span>
+  </footer>
+</div>
+<script src="vendor/esptool-js.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
